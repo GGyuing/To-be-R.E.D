@@ -1,0 +1,79 @@
+package VampireTree;
+
+import java.io.*;
+import java.util.StringTokenizer;
+
+public class VampireTree {
+	public static void main(String[] args) throws IOException{
+		FileReader in=null;
+		BufferedReader reader=null;
+		try{
+			in=new FileReader("vampire.txt");
+			reader=new BufferedReader(in);
+			
+			String str="";
+			while((str=reader.readLine())!=null)
+			{
+				int[] vamp=new int[20];
+				int count=0; //저장된 개체수를 저장
+				StringTokenizer token=new StringTokenizer(str, ",{} ");
+				while(token.hasMoreTokens())
+				{
+					vamp[count++]=Integer.parseInt(token.nextToken());
+				}
+				System.out.println(maxDistance(vamp,count));;								
+			}
+		}catch(FileNotFoundException e)
+		{
+			e.getMessage();
+		}finally{
+			in.close();
+			reader.close();
+		}
+	}
+
+	private static int maxDistance(int[] vamp,int count) {
+		int max=-1;
+		for(int i=0;i<count;i++)
+		{
+			//조상 뱀파이어 인자를 지정(조상 개체가 가지고 있는 서번트 수 저장)
+			int[] tmp=new int[count];
+			
+			int sum=0;
+			for(int j=0;j<count;j++){
+				tmp[j]=vamp[j]-1;
+				if(i==j)
+					tmp[j]++;
+				sum+=tmp[j];
+			}
+			if (sum == count - 1) {
+				sort(tmp, count);
+				int cnt = 0;
+				for (int p = 0; p < count; p++) {
+					if (tmp[p] == 0) {
+						break;
+					}
+					cnt++;
+				}
+				if (cnt > max)
+					max = cnt;
+			}
+		}
+		return max;		
+	}
+
+	private static void sort(int[] tmp, int count) {
+		int t;
+		for(int i=0;i<count-1;i++){
+			for(int j=i+1;j<count;j++)
+			{
+				if(tmp[i]<tmp[j])
+				{
+					t=tmp[i];
+					tmp[i]=tmp[j];
+					tmp[j]=t;
+				}
+			}
+		}
+	}	
+}
