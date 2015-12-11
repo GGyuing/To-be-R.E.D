@@ -31,49 +31,24 @@ public class VampireTree {
 			reader.close();
 		}
 	}
-
-	private static int maxDistance(int[] vamp,int count) {
-		int max=-1;
-		for(int i=0;i<count;i++)
+	
+	public int maxDistance(int[] num)
 		{
-			//조상 뱀파이어 인자를 지정(조상 개체가 가지고 있는 서번트 수 저장)
-			int[] tmp=new int[count];
-			
-			int sum=0;
-			for(int j=0;j<count;j++){
-				tmp[j]=vamp[j]-1;
-				if(i==j)
-					tmp[j]++;
-				sum+=tmp[j];
-			}
-			if (sum == count - 1) {
-				sort(tmp, count);
-				int cnt = 0;
-				for (int p = 0; p < count; p++) {
-					if (tmp[p] == 0) {
-						break;
-					}
-					cnt++;
-				}
-				if (cnt > max)
-					max = cnt;
-			}
-		}
-		return max;		
+		    int i,One_Cnt=0,Else_Cnt=0,sum=2;
+		    for(i=0;i<num.length;i++)
+		    {
+		        if(num[i]==1)
+		            One_Cnt++;
+		        else
+		        {
+		            Else_Cnt++;
+		            sum+=num[i]-2;
+		        }
+	    }
+	    if(One_Cnt!=sum)
+	        return -1;
+	    else
+	        return Else_Cnt+1;
 	}
-
-	private static void sort(int[] tmp, int count) {
-		int t;
-		for(int i=0;i<count-1;i++){
-			for(int j=i+1;j<count;j++)
-			{
-				if(tmp[i]<tmp[j])
-				{
-					t=tmp[i];
-					tmp[i]=tmp[j];
-					tmp[j]=t;
-				}
-			}
-		}
-	}	
+		
 }
